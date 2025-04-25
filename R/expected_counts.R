@@ -1,6 +1,7 @@
 #' Title
 #'
 #' @param counts
+#' @param factor
 #'
 #' @returns An integer of expected counts
 #' @export
