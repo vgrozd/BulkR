@@ -7,5 +7,6 @@
 #'
 #' @examples expected_counts(Seurat@assays$RNA@counts)
 expected_counts <- function(counts){
-
+  expected <- rowSums(Counts)
+  expected <- expected_RPM*1e6/sum(expected_RPM)
 }
