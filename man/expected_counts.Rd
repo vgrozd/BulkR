@@ -4,10 +4,10 @@
 \alias{expected_counts}
 \title{Title}
 \usage{
-expected_counts(counts)
+expected_counts(counts, factor = 1e+06)
 }
 \arguments{
-\item{counts}{}
+\item{factor}{}
 }
 \value{
 An integer of expected counts
