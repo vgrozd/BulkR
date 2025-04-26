@@ -8,6 +8,8 @@
 #' @export
 #'
 #' @examples expected_counts(Seurat@assays$RNA@counts)
+#' @examples expected_counts(Seurat@assays$RNA@counts, factor=1e3, log=TRUE, pseudocount=0.5)
+
 expected_counts <- function(counts, factor=1e6, log=FALSE, pseudocount=NULL){
   return(
     if(log){
