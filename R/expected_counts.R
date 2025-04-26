@@ -1,7 +1,7 @@
 #' Title
 #'
-#' @param counts
-#' @param factor
+#' @param counts A counts matrix
+#' @param factor Integer, a scaling factor
 #'
 #' @returns An integer of expected counts
 #' @export
