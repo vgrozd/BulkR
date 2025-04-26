@@ -4,12 +4,14 @@
 \alias{expected_counts}
 \title{Title}
 \usage{
-expected_counts(counts, factor = 1e+06)
+expected_counts(counts, factor = 1e+06, log = FALSE, pseudocount = NULL)
 }
 \arguments{
 \item{counts}{A counts matrix}
 
 \item{factor}{Integer, a scaling factor}
+
+\item{log}{Logical, log counts?}
 }
 \value{
 An integer of expected counts
