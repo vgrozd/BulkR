@@ -8,8 +8,13 @@
 #' @export
 #'
 #' @examples expected_counts(Seurat@assays$RNA@counts)
-expected_counts <- function(counts, factor=1e6, log=FALSE){
+expected_counts <- function(counts, factor=1e6, log=FALSE, pseudocount=NULL){
   return(
-    rowSums(counts) * factor / sum(rowSums(counts))
+    if(log){
+      (rowSums(counts)+if(is.null(pseudocount))1 else pseudocount) * factor / sum(rowSums(counts)+if(is.null(pseudocount)) 1 else pseudocount)
+    } else{
+      rowSums(counts) * factor / sum(rowSums(counts))
+    }
+
   )
 }
