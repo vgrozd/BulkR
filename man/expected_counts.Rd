@@ -7,7 +7,9 @@
 expected_counts(counts, factor = 1e+06)
 }
 \arguments{
-\item{factor}{}
+\item{counts}{A counts matrix}
+
+\item{factor}{Integer, a scaling factor}
 }
 \value{
 An integer of expected counts
