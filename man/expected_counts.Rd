@@ -21,4 +21,5 @@ Title
 }
 \examples{
 expected_counts(Seurat@assays$RNA@counts)
+expected_counts(Seurat@assays$RNA@counts, factor=1e3, log=TRUE, pseudocount=0.5)
 }
