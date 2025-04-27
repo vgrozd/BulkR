@@ -4,12 +4,16 @@
 \alias{dropout_fraq}
 \title{Title}
 \usage{
-dropout_fraq(counts, expected_counts)
+dropout_fraq(counts, expected_counts, res = 1000, na.rm = TRUE)
 }
 \arguments{
 \item{counts}{Numeric vector, counts of a single cell/sample}
 
 \item{expected_counts}{Numeric vector, expected counts per gene/feature in the same order as counts}
+
+\item{res}{Numeric, resolution (number of bins for expected count bins to calculate dropout fraction by), b/w 3 and 1e6}
+
+\item{na.rm}{Logical, Ignore NAs in counts?}
 }
 \value{
 dropout fraction per expected_counts bin
