@@ -13,9 +13,9 @@
 expected_counts <- function(counts, factor=1e6, log=FALSE, pseudocount=NULL){
   return(
     if(log){
-      (rowSums(counts)+if(is.null(pseudocount))1 else pseudocount) * factor / sum(rowSums(counts)+if(is.null(pseudocount)) 1 else pseudocount)
+      (Matrix::rowSums(counts)+if(is.null(pseudocount))1 else pseudocount) * factor / sum(Matrix::rowSums(counts)+if(is.null(pseudocount)) 1 else pseudocount)
     } else{
-      rowSums(counts) * factor / sum(rowSums(counts))
+      Matrix::rowSums(counts) * factor / sum(Matrix::rowSums(counts))
     }
 
   )
