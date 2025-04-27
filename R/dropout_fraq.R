@@ -44,3 +44,4 @@ dropout_fraq <- function(counts, expected_counts, res=1e3, na.rm = TRUE){
     )
   )
 }
+
