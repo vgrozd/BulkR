@@ -8,7 +8,9 @@
 #' @export
 #'
 #' @examples dropout_fraq(Seurat@assays$RNA@counts[1,], expected_counts(Seurat@assays$RNA@counts))
+
 dropout_fraq <- function(counts, expected_counts, res=1e3, na.rm = TRUE){
+
 
   stopifnot(is.numeric(res), res>3, res<1e6)
   ExpBin <- cut(
@@ -23,14 +25,22 @@ dropout_fraq <- function(counts, expected_counts, res=1e3, na.rm = TRUE){
   )
 
   return(
-    data.frame(
-      ExpBin = ExpBin,
-      Counts = counts
-    ) %>%
-      group_by(ExpBin) %>%
-      mutate(DropoutFraq = 1-mean(Counts>0, na.rm = na.rm)) %>%
-      pull(DropoutFraq)
+
+    apply(
+
+      Counts,
+      FUN = function(x, e = ExpBin){
+        return(
+          data.frame(
+            ExpBin = e,
+            Counts = x
+          ) %>%
+            dplyr::group_by(ExpBin) %>%
+            dplyr::mutate(DropoutFraq = 1-mean(Counts>0, na.rm = na.rm)) %>%
+            dplyr::pull(DropoutFraq)
+        )
+      },
+      MARGIN = 2
+    )
   )
-
-
 }
