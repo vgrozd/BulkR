@@ -2,3 +2,4 @@
 
 export(dropout_fraq)
 export(expected_counts)
+importFrom(magrittr,"%>%")
