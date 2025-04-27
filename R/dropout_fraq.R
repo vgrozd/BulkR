@@ -16,7 +16,6 @@ dropout_fraq <- function(counts, expected_counts, res=1e3, na.rm = TRUE){
     breaks = seq(
       from = min(expected_counts),
       to = max(expected_counts),
-      res =
       length.out = res+1
     ),
     include.lowest = TRUE,
