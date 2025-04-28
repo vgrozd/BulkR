@@ -128,11 +128,11 @@ plot_dropout_vs_magnitude <- function(
           )
         )
       ) +
-        ggplot2::aes(expected_counts, dropout_fraq) +
+        ggplot2::aes(expected_counts, dropout_fraq, fill = Cell) +
         (if(color_by_libsize){
-          ggplot2::geom_smooth(aes(col=total_counts), se = FALSE)
+          ggplot2::geom_smooth(aes(col=total_counts), se = FALSE, ...)
         } else{
-          ggplot2::geom_smooth(col="blue", se = FALSE)
+          ggplot2::geom_smooth(col="blue", se = FALSE, ...)
         }) +
         (if(color_by_libsize){
           ggplot2::scale_color_viridis_b()
@@ -195,8 +195,16 @@ plot_dropout_vs_magnitude <- function(
         )
       ) +
         ggplot2::aes(expected_counts, dropout_fraq, fill=Cell) +
-        ggplot2::geom_line(ggplot2::aes(col=log10(TotalCounts)), size=0.5, alpha = ...) +
-        ggplot2::scale_color_viridis_b() +
+        (if(color_by_libsize){
+          ggplot2::geom_line(ggplot2::aes(col=log10(TotalCounts)), size=0.5, alpha = ...)
+        } else {
+          ggplot2::geom_line(size=0.5, col = "blue", alpha = ...)
+        }) +
+        (if(color_by_libsize){
+          ggplot2::scale_color_viridis_b()
+        } else {
+          NULL
+        }) +
         ggplot2::theme_classic()
     )
 
