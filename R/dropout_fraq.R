@@ -36,7 +36,7 @@ dropout_fraq <- function(counts, expected_counts, res=1e3, na.rm = TRUE){
             Counts = x
           ) %>%
             dplyr::group_by(ExpBin) %>%
-            dplyr::mutate(DropoutFraq = 1-mean(counts>0, na.rm = na.rm)) %>%
+            dplyr::mutate(DropoutFraq = 1-mean(Counts>0, na.rm = na.rm)) %>%
             dplyr::pull(DropoutFraq)
         )
       },
