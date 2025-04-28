@@ -20,16 +20,82 @@
 
 
 plot_dropout_vs_magnitude <- function(
-    expected_counts,
-    dropout_fraq,
-    per_cell = TRUE,
+    counts = NULL,
+    expected_counts=NULL,
+    dropout_fraq=NULL,
+    per_cell = FALSE,
     logistic_fit = TRUE,
     fit.res = 300,
     total_counts = NULL,
+    force_sample = TRUE,
     ...
   ){
 
+  if(
+    !is.null(counts) & any(!is.null(c(expected_counts, dropout_fraq))) |
+      is.null(counts) & any(is.null(c(expected_counts, dropout_fraq)))
+  ){
+    stop("Please provide on of both: Count matrix, or expected counts + dropout fractions! ")
+  }
+
+  if(!is.null(counts)){
+    expected_counts = expected_counts(counts)
+  }
+
   if(!per_cell & !is.null(dim(dropout_fraq))){
+    dropout_fraq = dropout_fraq(counts, expected_counts)
+    if(dim(dropout_fraq)[2]>1){
+      dropout_fraq <- base::rowMeans(dropout_fraq, na.rm = TRUE)
+    }
+  }
+
+  if(is.logical(force_sample)){
+    if(isTRUE(force_sample) &
+       any(
+         c(
+           dim(counts)[2] > 20,
+           dim(dropout_fraq)[2] > 20
+         )
+       )
+    ){
+      tryCatch({
+        counts <- counts[,sample(1:ncol(counts), size = 20, replace = FALSE)]
+        message(paste0("More than 20 cells detected, reducing to 20 random cells... "))
+      }, error = function(e){})
+      tryCatch({
+        dropout_fraq <- dropout_fraq[,sample(1:ncol(dropout_fraq), size = 20, replace = FALSE)]
+        message(paste0("More than 20 cells detected, reducing to 20 random cells... "))
+      }, error = function(e){})
+    } else{}
+  } else{
+    if(is.numeric(force_sample) & force_sample > 0){
+      if(any(
+        c(
+          dim(counts)[2] > force_sample,
+          dim(dropout_fraq)[2] > force_sample
+        )
+      )){
+        tryCatch({
+          counts <- counts[,sample(1:ncol(counts), size = force_sample, replace = FALSE)]
+          message(paste0("More than ", force_sample, " cells detected, reducing to 20 random cells... "))
+        }, error = function(e){})
+        tryCatch({
+          dropout_fraq <- dropout_fraq[,sample(1:ncol(dropout_fraq), size = force_sample, replace = FALSE)]
+          message(paste0("More than ", force_sample, " cells detected, reducing to 20 random cells... "))
+        }, error = function(e){})
+      } else{
+        stop("More samples to draw specified than number of samples available")
+      }
+    } else{
+      stop("'force_sample': Please provide either logical or a valid numerical value")
+    }
+  }
+
+  if(!is.null(counts)){
+    dropout_fraq = dropout_fraq(counts, expected_counts)
+  }
+
+  if(!per_cell){
     if(dim(dropout_fraq)[2]>1){
       dropout_fraq <- base::rowMeans(dropout_fraq, na.rm = TRUE)
     }
@@ -58,7 +124,8 @@ plot_dropout_vs_magnitude <- function(
         )
       ) +
         ggplot2::aes(expected_counts, dropout_fraq, fill=Cell) +
-        ggplot2::geom_smooth(..., se = TRUE) +
+        ggplot2::geom_smooth(..., se = FALSE) +
+        ggplot2::scale_color_viridis_b() +
         ggplot2::theme_classic()
     )
 
@@ -118,6 +185,7 @@ plot_dropout_vs_magnitude <- function(
       ) +
         ggplot2::aes(expected_counts, dropout_fraq, fill=Cell) +
         ggplot2::geom_line(ggplot2::aes(col=log10(TotalCounts)), size=0.5, alpha = ...) +
+        ggplot2::scale_color_viridis_b() +
         ggplot2::theme_classic()
     )
 
