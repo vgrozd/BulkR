@@ -50,10 +50,10 @@ plot_dropout_vs_magnitude <- function(
       as.matrix(dropout_fraq),
       FUN = function(x, expcs = expected_counts, nwdt = newdata){
         fit <- stats::glm(
-          x ~ expcs,
+          x ~ expected_counts,
           data = data.frame(
-            expected_counts = expcs,
-            dropout_fraq = as.vector(x)
+            x = x,
+            expected_counts = expcs
           ),
           family = quasibinomial
         )
@@ -66,7 +66,9 @@ plot_dropout_vs_magnitude <- function(
           )
         )
 
-      }, MARGIN = 2)
+      },
+      MARGIN = 2
+    )
 
 
     return(
@@ -85,10 +87,17 @@ plot_dropout_vs_magnitude <- function(
         )
       ) +
         ggplot2::aes(expected_counts, dropout_fraq, fill=Cell) +
-        ggplot2::geom_smooth(..., se = TRUE) +
+        ggplot2::geom_smooth(..., se = FALSE) +
         ggplot2::theme_classic()
     )
 
   }
 }
+
+summary(colSums(Counts))
+Counts3 <- Counts[,which(colSums(Counts) > 1000 & colSums(Counts) < 1100)]
+plot_dropout_vs_magnitude(
+  expected_counts(Counts3),
+  dropout_fraq(Counts3, expected_counts(Counts3)), per_cell = FALSE, log = TRUE
+)
 
