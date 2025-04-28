@@ -17,6 +17,8 @@ plot_dropout_vs_magnitude(
 )
 }
 \arguments{
+\item{counts}{A count vector/matrix to plot}
+
 \item{expected_counts}{Vector of expected counts}
 
 \item{dropout_fraq}{Array/vector of dropout fractions}
@@ -28,6 +30,10 @@ plot_dropout_vs_magnitude(
 \item{fit.res}{Number of bins for the logistic curve}
 
 \item{...}{Graphic parameters for the plot lines}
+
+\item{tota_counts}{A vector of library sizes for each cell}
+
+\item{Logical}{of numeric: Force subsampling for large cell numbers?}
 }
 \value{
 Plot
