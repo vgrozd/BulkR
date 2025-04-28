@@ -1,10 +1,13 @@
 #' Title
 #'
+#' @param counts A count vector/matrix to plot
 #' @param expected_counts Vector of expected counts
 #' @param dropout_fraq Array/vector of dropout fractions
 #' @param per_cell Plot each single cell or average?
 #' @param logistic_fit Fit a logistic curve?
 #' @param fit.res Number of bins for the logistic curve
+#' @param tota_counts A vector of library sizes for each cell
+#' @param Logical of numeric: Force subsampling for large cell numbers?
 #' @param ... Graphic parameters for the plot lines
 #'
 #' @returns Plot
