@@ -213,7 +213,6 @@ plot_dropout_vs_magnitude <- function(
         }) +
         ggplot2::theme_classic()
     )
-
   }
 }
 
