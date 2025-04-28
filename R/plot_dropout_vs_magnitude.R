@@ -128,9 +128,15 @@ plot_dropout_vs_magnitude <- function(
           )
         )
       ) +
-        ggplot2::aes(expected_counts, dropout_fraq, fill=Cell) +
-        ggplot2::geom_smooth(..., se = FALSE) +
-        ggplot2::scale_color_viridis_b() +
+        ggplot2::aes(expected_counts, dropout_fraq) +
+        (if(color_by_libsize){
+          ggplot2::geom_smooth(aes(col=total_counts), se = FALSE)
+        } else{
+          ggplot2::geom_smooth(col="blue", se = FALSE)
+        }) +
+        (if(color_by_libsize){
+          ggplot2::scale_color_viridis_b()
+          } else {NULL}) +
         ggplot2::theme_classic()
     )
 
