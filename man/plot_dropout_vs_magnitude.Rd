@@ -11,8 +11,10 @@ plot_dropout_vs_magnitude(
   per_cell = FALSE,
   logistic_fit = TRUE,
   fit.res = 300,
+  color_by_libsize = TRUE,
   total_counts = NULL,
   force_sample = TRUE,
+  seed = 142,
   ...
 )
 }
@@ -29,11 +31,15 @@ plot_dropout_vs_magnitude(
 
 \item{fit.res}{Number of bins for the logistic curve}
 
+\item{color_by_libsize}{Logical, plot line colors by lib size?}
+
+\item{total_counts}{A vector of library sizes for each cell}
+
+\item{force_sample}{Logical/numeric: Sample few cells to plot?}
+
+\item{seed}{Numeric: Random sampling seed}
+
 \item{...}{Graphic parameters for the plot lines}
-
-\item{tota_counts}{A vector of library sizes for each cell}
-
-\item{Logical}{of numeric: Force subsampling for large cell numbers?}
 }
 \value{
 Plot
