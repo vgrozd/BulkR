@@ -87,7 +87,7 @@ plot_dropout_vs_magnitude <- function(
         )
       ) +
         ggplot2::aes(expected_counts, dropout_fraq, fill=Cell) +
-        ggplot2::geom_smooth(..., se = FALSE) +
+        ggplot2::geom_line(..., se = FALSE) +
         ggplot2::theme_classic()
     )
 

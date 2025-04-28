@@ -10,7 +10,7 @@
 #' @examples expected_counts(Seurat@assays$RNA@counts)
 #' @examples expected_counts(Seurat@assays$RNA@counts, factor=1e3, log=TRUE, pseudocount=0.5)
 
-expected_counts <- function(counts, factor=1e6, log=FALSE, pseudocount=1){
+expected_counts <- function(counts, factor=1e6, log=TRUE, pseudocount=1){
   return(
     if(!log){
       Matrix::rowSums(counts, na.rm = TRUE) * factor / sum(Matrix::rowSums(counts, na.rm = TRUE), na.rm = TRUE)
