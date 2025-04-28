@@ -6,7 +6,8 @@
 #' @param per_cell Plot each single cell or average?
 #' @param logistic_fit Fit a logistic curve?
 #' @param fit.res Number of bins for the logistic curve
-#' @param tota_counts A vector of library sizes for each cell
+#' @param color_by_libsize Logical, plot line colors by lib size?
+#' @param total_counts A vector of library sizes for each cell
 #' @param Logical of numeric: Force subsampling for large cell numbers?
 #' @param ... Graphic parameters for the plot lines
 #'
@@ -29,6 +30,7 @@ plot_dropout_vs_magnitude <- function(
     per_cell = FALSE,
     logistic_fit = TRUE,
     fit.res = 300,
+    color_by_libsize = TRUE,
     total_counts = NULL,
     force_sample = TRUE,
     ...
