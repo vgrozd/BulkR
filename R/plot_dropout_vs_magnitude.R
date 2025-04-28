@@ -8,7 +8,8 @@
 #' @param fit.res Number of bins for the logistic curve
 #' @param color_by_libsize Logical, plot line colors by lib size?
 #' @param total_counts A vector of library sizes for each cell
-#' @param Logical of numeric: Force subsampling for large cell numbers?
+#' @param force_sample Logical/numeric: Sample few cells to plot?
+#' @param seed Numeric: Random sampling seed
 #' @param ... Graphic parameters for the plot lines
 #'
 #' @returns Plot
@@ -33,6 +34,7 @@ plot_dropout_vs_magnitude <- function(
     color_by_libsize = TRUE,
     total_counts = NULL,
     force_sample = TRUE,
+    seed = 142,
     ...
   ){
 
@@ -64,10 +66,12 @@ plot_dropout_vs_magnitude <- function(
        )
     ){
       tryCatch({
+        set.seed(seed)
         counts <- counts[,sample(1:ncol(counts), size = 20, replace = FALSE)]
         message(paste0("More than 20 cells detected, reducing to 20 random cells... "))
       }, error = function(e){})
       tryCatch({
+        set.seed(seed)
         dropout_fraq <- dropout_fraq[,sample(1:ncol(dropout_fraq), size = 20, replace = FALSE)]
         message(paste0("More than 20 cells detected, reducing to 20 random cells... "))
       }, error = function(e){})
@@ -81,10 +85,12 @@ plot_dropout_vs_magnitude <- function(
         )
       )){
         tryCatch({
+          set.seed(seed)
           counts <- counts[,sample(1:ncol(counts), size = force_sample, replace = FALSE)]
           message(paste0("More than ", force_sample, " cells detected, reducing to 20 random cells... "))
         }, error = function(e){})
         tryCatch({
+          set.seed(seed)
           dropout_fraq <- dropout_fraq[,sample(1:ncol(dropout_fraq), size = force_sample, replace = FALSE)]
           message(paste0("More than ", force_sample, " cells detected, reducing to 20 random cells... "))
         }, error = function(e){})
