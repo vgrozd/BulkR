@@ -15,7 +15,10 @@ expected_counts <- function(counts, factor=1e6, log=TRUE, pseudocount=1){
     if(!log){
       Matrix::rowSums(counts, na.rm = TRUE) * factor / sum(Matrix::rowSums(counts, na.rm = TRUE), na.rm = TRUE)
     } else{
-      (Matrix::rowSums(counts, na.rm = TRUE)+ pseudocount) * factor / sum(Matrix::rowSums(counts, na.rm = TRUE) + pseudocount, na.rm = TRUE)
+      log10(
+        Matrix::rowSums(counts, na.rm = TRUE) * factor / sum(Matrix::rowSums(counts, na.rm = TRUE), na.rm = TRUE) +
+          pseudocount
+      )
     }
 
   )

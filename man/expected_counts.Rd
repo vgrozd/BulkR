@@ -4,7 +4,7 @@
 \alias{expected_counts}
 \title{Title}
 \usage{
-expected_counts(counts, factor = 1e+06, log = FALSE, pseudocount = NULL)
+expected_counts(counts, factor = 1e+06, log = TRUE, pseudocount = 1)
 }
 \arguments{
 \item{counts}{A counts matrix}
