@@ -5,11 +5,14 @@
 \title{Title}
 \usage{
 plot_dropout_vs_magnitude(
-  expected_counts,
-  dropout_fraq,
-  per_cell = TRUE,
+  counts = NULL,
+  expected_counts = NULL,
+  dropout_fraq = NULL,
+  per_cell = FALSE,
   logistic_fit = TRUE,
   fit.res = 300,
+  total_counts = NULL,
+  force_sample = TRUE,
   ...
 )
 }
