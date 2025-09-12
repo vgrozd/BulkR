@@ -68,19 +68,14 @@ unify_DE_format <- function(DE_results, format=NULL, inplace = FALSE){
 
   if(format=="DESeq2"){
     DE_results <- as.data.frame(DE_results)
-    .df = data.frame(
+    return(
+      data.frame(
         Gene = rownames(DE_results),
         L2FC = DE_results$log2FoldChange,
         PVAL = DE_results$pvalue,
         QVAL = DE_results$padj
       )
-    if (inplace) {
-      message(paste0("Modified ", deparse(substitute(DE_results)), " in place! "))
-      assign(deparse(substitute(DE_results)), .df, envir = parent.frame())
-      return(invisible())
-    } else {
-      return(.df)
-    }
+    )
   }
 
   if(format=="MAST"){
@@ -102,4 +97,3 @@ unify_DE_format <- function(DE_results, format=NULL, inplace = FALSE){
   stop("DE results format could not be unified! ")
 
 }
-

@@ -3,4 +3,5 @@
 export(dropout_fraq)
 export(expected_counts)
 export(plot_dropout_vs_magnitude)
+export(unify_DE_format)
 importFrom(magrittr,"%>%")
