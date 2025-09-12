@@ -10,6 +10,8 @@
 #' @examples expected_counts(Seurat@assays$RNA@counts)
 #' @examples expected_counts(Seurat@assays$RNA@counts, factor=1e3, log=TRUE, pseudocount=0.5)
 
+# TODO: Add input sanitization
+
 expected_counts <- function(counts, factor=1e6, log=TRUE, pseudocount=1){
   return(
     if(!log){
