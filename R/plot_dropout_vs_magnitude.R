@@ -122,6 +122,7 @@ plot_dropout_vs_magnitude <- function(
 
     return(
 
+# Plot
 
       ggplot2::ggplot(
         data.frame(
