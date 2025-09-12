@@ -38,6 +38,8 @@ plot_dropout_vs_magnitude <- function(
     ...
   ){
 
+  # Santize input
+
   if(
     !is.null(counts) & any(!is.null(c(expected_counts, dropout_fraq))) |
       is.null(counts) & any(is.null(c(expected_counts, dropout_fraq)))
