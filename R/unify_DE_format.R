@@ -35,6 +35,22 @@ unify_DE_format <- function(DE_results, format=NULL, inplace = FALSE){
         c("gene", "p_value", "model_log2FC", "ci.hi", "ci.lo", "fdr") %in%
         colnames(DE_results)
       )){format <- "MAST"}
+
+      if(setequal(
+        colnames(DE_results),
+        c("Gene", "L2FC", "PVAL", "QVAL")
+      )){
+        message("DE results already in the unified format!")
+        return(
+          DE_results[
+            ,
+            match(
+              c("Gene", "L2FC", "PVAL", "QVAL"),
+              colnames(DE_results)
+            )
+          ]
+        )
+      }
     }
 
     if(is.null(format)){stop("Format could not be detected, please specify 'format'")} else{message(paste0("Auto-detected DE results format: ", format))}
