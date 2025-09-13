@@ -8,17 +8,35 @@ combine_results <- function(..., filter=TRUE, fdr=NULL, l2fc=NULL, type="list"){
     )
   }
 
-  if(is.null(names(list(...)))){
-    results_list = setNames(
-      list(...),
-      nm = sapply(substitute(list(...)), deparse)[-1]
-    )
-  }else{
-    results_list = setNames(
-      list(...),
-      nm = names(list(...))
-    )
+
+  # if the first argument is a list and has length > 1, treat it as the datasets
+  if (length(list(...)) == 1 && is.list(list(...)[[1]]) && !is.data.frame(list(...)[[1]])) {
+    results_list <- list(...)[[1]]
+
+
+    if(is.null(names(results_list))){
+      results_list = setNames(
+        results_list,
+        nm = paste0(sapply(substitute(list(...)), deparse)[-1][1], "_", seq_along(results_list))
+      )
+    }
+
+
+  } else {
+
+    if(is.null(names(list(...)))){
+      results_list = setNames(
+        list(...),
+        nm = sapply(substitute(list(...)), deparse)[-1]
+      )
+    }else{
+      results_list = setNames(
+        list(...),
+        nm = names(list(...))
+      )
+    }
   }
+
 
   if(filter){
 
@@ -121,10 +139,28 @@ combine_results <- function(..., filter=TRUE, fdr=NULL, l2fc=NULL, type="list"){
     return(res_l)
   }
   if(type %in% c("df", "tbl")){
-    message(
-      "Data frame and tibble return types not yet implemented"
-    )
-    return(invisible())
+
+    if(filter){
+
+
+
+    }else{
+      Genes = Reduce(intersect, lapply(res_l, `[[`, "Gene"))
+      df = data.frame(
+        Gene = Genes
+      )
+      sapply(
+        names(res_l),
+        function(r){
+          df[[paste0("L2FC_", r)]] <<- res_l[[r]]$L2FC[match(df$Gene, res_l[[r]]$Gene)]
+          df[[paste0("PVAL_", r)]] <<- res_l[[r]]$PVAL[match(df$Gene, res_l[[r]]$Gene)]
+          df[[paste0("QVAL_", r)]] <<- res_l[[r]]$QVAL[match(df$Gene, res_l[[r]]$Gene)]
+        }
+      )
+      return(df)
+    }
+
+
   }
 
 
