@@ -1,11 +1,20 @@
 
 
-combine_results <- function(..., fdr=NULL, l2fc=NULL){
+combine_results <- function(..., fdr=NULL, l2fc=NULL, list=FALSE){
 
-  results_list = setNames(
-    list(...),
-    nm = sapply(substitute(list(...)), deparse)[-1]
-  )
+
+  if(is.null(names(list(...)))){
+    results_list = setNames(
+      list(...),
+      nm = sapply(substitute(list(...)), deparse)[-1]
+    )
+  }else{
+    results_list = setNames(
+      list(...),
+      nm = names(list(...))
+    )
+  }
+
 
   if(is.null(fdr)){
     message("Using default FDR value qval < 0.05")
@@ -63,13 +72,30 @@ combine_results <- function(..., fdr=NULL, l2fc=NULL){
         significant_results(results_list[[i]], qval = fdr[i], l2fc = l2fc[i])
       }
     )
+    res_l <- setNames(res_l, nm = names(results_list))
   }, error=function(e){
     stop(paste0("Could not extract significant results from DE results ", nm))
     # TODO check here what happens if a result is null or doesn't have sign results
   }
   )
 
-  return(res_l)
+  if(list) {
+    return(res_l)
+  }
+
+
+
 
 
 }
+
+lapply(
+  l5,
+  function(x){
+
+  }
+)
+
+
+
+
