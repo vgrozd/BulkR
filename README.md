@@ -8,6 +8,9 @@ BulkR is a collection of tools and synthetic data examples for the analyis of si
 ## Installation 
 
 BulkR is implemented in R and can be installed in R with: 
+```
+devtools::install_github("vgrozd/BulkR") 
+```
 
-
+## Usage 
 
