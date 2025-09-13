@@ -1,6 +1,6 @@
 
 
-combine_results <- function(..., filter=TRUE, fdr=NULL, l2fc=NULL, type="list"){
+combine_results <- function(..., filter=TRUE, fdr=NULL, l2fc=NULL, type="list", significant_genes="all"){
 
   if(! type %in% c("list", "df", "tbl")){
     stop(
@@ -8,6 +8,11 @@ combine_results <- function(..., filter=TRUE, fdr=NULL, l2fc=NULL, type="list"){
     )
   }
 
+  if(! significant_genes %in% c("all", "common", "unique")){
+    stop(
+      "Unvalid significant genes type. Please specify 'significant_genes=' as one of: \"all\", \"common\", \"unique\""
+    )
+  }
 
   # if the first argument is a list and has length > 1, treat it as the datasets
   if (length(list(...)) == 1 && is.list(list(...)[[1]]) && !is.data.frame(list(...)[[1]])) {
@@ -129,7 +134,7 @@ combine_results <- function(..., filter=TRUE, fdr=NULL, l2fc=NULL, type="list"){
 
       )
       # TODO check here what happens if a result is null or doesn't have sign results
-    }
+      }
     )
 
   }
@@ -142,6 +147,107 @@ combine_results <- function(..., filter=TRUE, fdr=NULL, l2fc=NULL, type="list"){
 
     if(filter){
 
+      message("---")
+      tryCatch({
+        nm = "?"
+        full_res_l <- lapply(
+          seq_along(results_list),
+          function(i){
+            nm <<- names(results_list)[i]
+            unify_DE_format(results_list[[i]])
+          }
+        )
+        full_res_l <- setNames(full_res_l, nm = names(results_list))
+      }, error=function(e){
+        stop(paste0(
+          "Could not extract unify format of DE results: \"", nm, "\""),
+          ,
+          "\nDid you mistype an argument '", nm, "'? "
+
+
+        )
+        # TODO check here what happens if a result is null or doesn't have sign results
+      }
+      )
+
+      if(significant_genes=="all"){
+        Genes = unique(
+          unlist(
+            sapply(
+              res_l,
+              function(x){
+                return(x$Gene)
+              }
+            )
+          )
+        )
+        df = data.frame(
+          Gene = Genes
+        )
+        sapply(
+          names(res_l),
+          function(r){
+            df[[paste0("L2FC_", r)]] <<- full_res_l[[r]]$L2FC[match(df$Gene, full_res_l[[r]]$Gene)]
+            df[[paste0("PVAL_", r)]] <<- full_res_l[[r]]$PVAL[match(df$Gene, full_res_l[[r]]$Gene)]
+            df[[paste0("QVAL_", r)]] <<- full_res_l[[r]]$QVAL[match(df$Gene, full_res_l[[r]]$Gene)]
+          }
+        )
+        message("---")
+        message("Returning data from all datasets of all genes significant in at least one of the datasets... ")
+        return(df)
+      }
+
+      if(significant_genes=="common"){
+        Genes = Reduce(intersect, lapply(res_l, `[[`, "Gene"))
+        df = data.frame(
+          Gene = Genes
+        )
+        sapply(
+          names(res_l),
+          function(r){
+            df[[paste0("L2FC_", r)]] <<- full_res_l[[r]]$L2FC[match(df$Gene, full_res_l[[r]]$Gene)]
+            df[[paste0("PVAL_", r)]] <<- full_res_l[[r]]$PVAL[match(df$Gene, full_res_l[[r]]$Gene)]
+            df[[paste0("QVAL_", r)]] <<- full_res_l[[r]]$QVAL[match(df$Gene, full_res_l[[r]]$Gene)]
+          }
+        )
+        message("---")
+        message("Returning data for all datasets of all genes significant in at least one of the datasets... ")
+        return(df)
+      }
+
+      if(significant_genes=="unique"){
+        Genes_oth = unique(
+          unlist(
+            sapply(
+              res_l[-1],
+              function(x){
+                return(x$Gene)
+              }
+            )
+          )
+        )
+        Genes_uni = setdiff(
+          res_l[[1]]$Gene,
+          Genes_oth
+        )
+
+
+
+        df = data.frame(
+          Gene = Genes_uni
+        )
+        sapply(
+          names(res_l),
+          function(r){
+            df[[paste0("L2FC_", r)]] <<- full_res_l[[r]]$L2FC[match(df$Gene, full_res_l[[r]]$Gene)]
+            df[[paste0("PVAL_", r)]] <<- full_res_l[[r]]$PVAL[match(df$Gene, full_res_l[[r]]$Gene)]
+            df[[paste0("QVAL_", r)]] <<- full_res_l[[r]]$QVAL[match(df$Gene, full_res_l[[r]]$Gene)]
+          }
+        )
+        message("---")
+        message("Returning data for all datasets of all genes significant in at least one of the datasets... ")
+        return(df)
+      }
 
 
     }else{
