@@ -107,6 +107,8 @@ combine_results <- function(..., filter=TRUE, fdr=NULL, l2fc=NULL, type="list"){
         "Could not extract unify format of DE results: \"", nm, "\""),
         ,
         "\nDid you mistype an argument '", nm, "'? "
+
+
       )
       # TODO check here what happens if a result is null or doesn't have sign results
     }
@@ -118,21 +120,17 @@ combine_results <- function(..., filter=TRUE, fdr=NULL, l2fc=NULL, type="list"){
   if(type=="list") {
     return(res_l)
   }
-
+  if(type %in% c("df", "tbl")){
+    message(
+      "Data frame and tibble return types not yet implemented"
+    )
+    return(invisible())
+  }
 
 
 
 
 }
-
-
-
-lapply(
-  l5,
-  function(x){
-
-  }
-)
 
 
 
