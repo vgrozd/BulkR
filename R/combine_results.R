@@ -194,6 +194,17 @@ combine_results <- function(..., filter=TRUE, fdr=NULL, l2fc=NULL, type="list", 
         )
         message("---")
         message("Returning data from all datasets of all genes significant in at least one of the datasets... ")
+
+        if(type=="tbl"){
+          df <- df %>%
+            tidyr::pivot_longer(
+              cols = -Gene,
+              names_to = c(".value", "DE_Results"),
+              names_pattern = "(L2FC|PVAL|QVAL)_(.*)"
+            ) %>%
+            dplyr::relocate(Gene, DE_Results, L2FC, PVAL, QVAL)
+        }
+
         return(df)
       }
 
@@ -212,6 +223,17 @@ combine_results <- function(..., filter=TRUE, fdr=NULL, l2fc=NULL, type="list", 
         )
         message("---")
         message("Returning data for all datasets of all genes significant in at least one of the datasets... ")
+
+        if(type=="tbl"){
+          df <- df %>%
+            tidyr::pivot_longer(
+              cols = -Gene,
+              names_to = c(".value", "DE_Results"),
+              names_pattern = "(L2FC|PVAL|QVAL)_(.*)"
+            ) %>%
+            dplyr::relocate(Gene, DE_Results, L2FC, PVAL, QVAL)
+        }
+
         return(df)
       }
 
@@ -246,6 +268,17 @@ combine_results <- function(..., filter=TRUE, fdr=NULL, l2fc=NULL, type="list", 
         )
         message("---")
         message("Returning data for all datasets of all genes significant in at least one of the datasets... ")
+
+        if(type=="tbl"){
+          df <- df %>%
+            tidyr::pivot_longer(
+              cols = -Gene,
+              names_to = c(".value", "DE_Results"),
+              names_pattern = "(L2FC|PVAL|QVAL)_(.*)"
+            ) %>%
+            dplyr::relocate(Gene, DE_Results, L2FC, PVAL, QVAL)
+        }
+
         return(df)
       }
 
@@ -263,6 +296,17 @@ combine_results <- function(..., filter=TRUE, fdr=NULL, l2fc=NULL, type="list", 
           df[[paste0("QVAL_", r)]] <<- res_l[[r]]$QVAL[match(df$Gene, res_l[[r]]$Gene)]
         }
       )
+
+      if(type=="tbl"){
+        df <- df %>%
+          tidyr::pivot_longer(
+            cols = -Gene,
+            names_to = c(".value", "DE_Results"),
+            names_pattern = "(L2FC|PVAL|QVAL)_(.*)"
+          ) %>%
+          dplyr::relocate(Gene, DE_Results, L2FC, PVAL, QVAL)
+      }
+
       return(df)
     }
 
