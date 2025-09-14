@@ -1,5 +1,18 @@
 
 
+#' Title
+#'
+#' @param ...
+#' @param filter
+#' @param fdr
+#' @param l2fc
+#' @param type
+#' @param significant_genes
+#'
+#' @returns
+#' @export
+#'
+#' @examples
 combine_results <- function(..., filter=TRUE, fdr=NULL, l2fc=NULL, type="list", significant_genes="all"){
 
   if(! type %in% c("list", "df", "tbl")){
