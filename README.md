@@ -1,5 +1,5 @@
 # BulkR
-<img src="https://github.com/vgrozd/BulkR/blob/main/BulkR_Tile.png" width="100">
+<img src="https://github.com/vgrozd/BulkR/blob/main/BulkR_Tilev2.png" width="100">
 
 ## Tools for single-cell and pseudobulk analysis  
 BulkR is a collection of tools and synthetic data examples for the analyis of single-cell and bulk sequencing data. 
