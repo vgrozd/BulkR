@@ -66,7 +66,7 @@ unify_DE_format <- function(DE_results, format=NULL, inplace = FALSE){
 
   if(
     format == "DESeq2" &
-    any(! c("baseMean", "log2FoldChange", "lfcSE", "stat", "pvalue", "padj") %in%
+    any(! c("baseMean", "log2FoldChange", "lfcSE", "pvalue", "padj") %in%
         colnames(DE_results))
   ){
     stop("Format set as DESeq2 but data is not compatible with this format")
