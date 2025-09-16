@@ -14,6 +14,8 @@ devtools::install_github("vgrozd/BulkR")
 
 ## Usage 
 
+For detailed usade, see the BulkR vignette. 
+
 * #### Combine DGE analysis results 
 
 
