@@ -8,5 +8,5 @@
 #'
 #' @examples
 not_in <- function(a_not_in, b){
-  return(a[which(! a %in% not_in_b)])
+  return(a[which(! a_not_in, b)])
 }
