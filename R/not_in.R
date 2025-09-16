@@ -7,6 +7,6 @@
 #' @export
 #'
 #' @examples
-not_in <- function(a,b){
-  return(a[which(! a %in% b)])
+not_in <- function(in_a,b){
+  return(in_a[which(! in_a %in% b)])
 }
