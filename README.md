@@ -36,4 +36,9 @@ Alternatively, a data.frame with filtered for results with ```fdr<threshold``` w
 This function returns a BulkedExpression object with pseudo-bulk gene expression across hierarchical or unrelated 
 sample factors. 
 
+### Hierarchical differential expression analysis 
+
+This function automates differential gene expression analysis across multiple levels 
+
+
 
