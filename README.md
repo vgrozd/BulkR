@@ -42,3 +42,9 @@ This function automates differential gene expression analysis across multiple le
 
 One of the two default methods, "DESeq2"  or "MAST" can be specified. 
 Alternatively, a user-defined analysis function can be accepted if it returns an accepted results format. 
+
+### Systematic SVA 
+
+This function performs SVA analysis with incresing number of SVs and stores the data in a BulkedExpression object. 
+
+
