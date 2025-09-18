@@ -16,6 +16,8 @@ devtools::install_github("vgrozd/BulkR")
 
 For detailed usade, see the BulkR vignette. 
 
-* #### Combine DGE analysis results 
+* #### Combine DGE analysis results
+
+With this function, differential gene expression analysis results can be combined into a single object. 
 
 
