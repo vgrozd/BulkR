@@ -40,5 +40,5 @@ sample factors.
 
 This function automates differential gene expression analysis across multiple levels 
 
-
+One of the two default methods, "DESeq2"  or "MAST" can be specified. 
 
