@@ -27,3 +27,8 @@ data.frames or a single dataframe with concatenated columns.
 
 
 #### Extract significant results 
+
+With this funcition, names of significant features can be extracted. 
+Alternatively, a data.frame with filtered for results with ```fdr<threshold``` will be returned. 
+
+
