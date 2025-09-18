@@ -22,4 +22,6 @@ With this function, differential gene expression analysis results can be combine
 Acceptet inputs are DESeq2 results as a DESeq2 results object or a data.frame and MAST results with standard 
 column names. 
 
+```combine_results()``` formats the inputs to the same format (column names) and return a list of formatted 
+data.frames or a single dataframe with concatenated columns. 
 
