@@ -31,4 +31,9 @@ data.frames or a single dataframe with concatenated columns.
 With this funcition, names of significant features can be extracted. 
 Alternatively, a data.frame with filtered for results with ```fdr<threshold``` will be returned. 
 
+#### Hierarchical gene exression 
+
+This function returns a BulkedExpression object with pseudo-bulk gene expression across hierarchical or unrelated 
+sample factors. 
+
 
