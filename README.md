@@ -46,5 +46,7 @@ Alternatively, a user-defined analysis function can be accepted if it returns an
 ### Systematic SVA 
 
 This function performs SVA analysis with incresing number of SVs and stores the data in a BulkedExpression object. 
+The number of SVs can be specified. 
+
 
 
