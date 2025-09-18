@@ -19,5 +19,7 @@ For detailed usade, see the BulkR vignette.
 * #### Combine DGE analysis results
 
 With this function, differential gene expression analysis results can be combined into a single object. 
+Acceptet inputs are DESeq2 results as a DESeq2 results object or a data.frame and MAST results with standard 
+column names. 
 
 
