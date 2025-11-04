@@ -38,7 +38,7 @@ sample factors.
 
 ### Hierarchical differential expression analysis 
 
-This function automates differential gene expression analysis across multiple levels 
+This function automates differential gene expression analysis across multiple levels. 
 
 One of the two default methods, "DESeq2"  or "MAST" can be specified. 
 Alternatively, a user-defined analysis function can be accepted if it returns an accepted results format. 
