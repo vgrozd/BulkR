@@ -19,19 +19,19 @@ For detailed usade, see the BulkR vignette.
 * #### Combine DGE analysis results
 
 With this function, differential gene expression analysis results can be combined into a single object. 
-Acceptet inputs are DESeq2 results as a DESeq2 results object or a data.frame and MAST results with standard 
+Accepted inputs are DESeq2 results as a DESeq2 results object or a data.frame and MAST results with standard 
 column names. 
 
 ```combine_results()``` formats the inputs to the same format (column names) and returns a list of formatted 
-data.frames or a single dataframe with concatenated columns. 
+data.frames or a single data.frame with concatenated columns. 
 
 
 #### Extract significant results 
 
-With this funcition, names of significant features can be extracted. 
+With this function, names of significant features can be extracted. 
 Alternatively, a data.frame with filtered for results with ```fdr<threshold``` will be returned. 
 
-#### Hierarchical gene exression 
+#### Hierarchical gene expression 
 
 This function returns a BulkedExpression object with pseudo-bulk gene expression across hierarchical or unrelated 
 sample factors. 
