@@ -6,14 +6,7 @@ serial_sva <- function(DDS, n.sv = NULL, parallel = TRUE){
       paste0(
         "Provided DDS object was not DESeq`ed. Running DESeq2 now..."
       )
-    )
-    message(
-      paste0(
-        "DESeq2 design: ",
-        DESeq2::design(DDS),
-        "... "
-      )
-    )
+    ); cat("\n")
     DDS <- DESeq2::DESeq(DDS, parallel = parallel, quiet = TRUE)
   } else {
     message(
@@ -24,11 +17,12 @@ serial_sva <- function(DDS, n.sv = NULL, parallel = TRUE){
     message(
       paste0(
         "DESeq2 design: ",
-        DESeq2::design(DDS),
+        paste0(as.character(DESeq2::design(DDS)), collapse = " "),
         "... "
       )
-    )
+    ); cat("\n")
   }
+
   dat  <- DESeq2::counts(DDS, normalized = TRUE)
   message(
     paste0(
@@ -46,7 +40,7 @@ serial_sva <- function(DDS, n.sv = NULL, parallel = TRUE){
       sum(rowMeans(dat) <= 1),
       " features due to low counts..."
     )
-  )
+  ); cat("\n")
   dat  <- dat[idx, ]
   mod  <- model.matrix(DESeq2::design(DDS), SummarizedExperiment::colData(DDS))
   mod0 <- model.matrix(~ 1, SummarizedExperiment::colData(DDS))
@@ -54,15 +48,17 @@ serial_sva <- function(DDS, n.sv = NULL, parallel = TRUE){
   if(is.null(n.sv)){
     message(
       "Running SVA with automatic assessment of SVs..."
-    )
+    ); cat("\n")
   } else{
     message(
-      paste0(
-        "Running SVA with ",
-        n.sv,
-        " SVs..."
-      )
-    )
+      if(n.sv == 1) {"Running SVA with 1 SV..."} else{
+        paste0(
+          "Running SVA with 1-",
+          n.sv,
+          " SVs..."
+        )
+      }
+    ); cat("\n")
   }
   svseq <- sva::svaseq(dat, mod, mod0, n.sv = n.sv)
 
@@ -81,7 +77,7 @@ serial_sva <- function(DDS, n.sv = NULL, parallel = TRUE){
 
   message(
     "Running DESeq with SVA with increasing numbers of SVs now... "
-  )
+  ); cat("\n")
 
   for(i in 1:ncol(svseq$sv)){
 
@@ -109,12 +105,12 @@ serial_sva <- function(DDS, n.sv = NULL, parallel = TRUE){
     message(
       paste0(
         "DESeq2 Design: ",
-        DESeq2::design(DDS.tmp),
-        "... "
+        paste0(as.character(DESeq2::design(DDS.tmp)), collapse = " "),
+        " ... "
       )
-    )
+    ); cat("\n")
 
-    DDS_with_serial_SVA[[i]] <- DESeq2::DESeq(DDS.tmp, parallel=TRUE, quiet = TRUE)
+    DDS_with_serial_SVA[[i]] <- DESeq2::DESeq(DDS.tmp, parallel=parallel, quiet = TRUE)
     rm(DDS.tmp, design.tmp)
   }
 
