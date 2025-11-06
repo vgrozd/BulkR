@@ -4,7 +4,14 @@
 \alias{serial_sva_DESeq2}
 \title{Serial SVA DESeq2 analysis}
 \usage{
-serial_sva_DESeq2(DDS, n.sv = NULL, parallel = TRUE)
+serial_sva_DESeq2(
+  DDS,
+  n.sv = NULL,
+  parallel = TRUE,
+  qval = 0.05,
+  l2fc = 0,
+  nthr = NULL
+)
 }
 \arguments{
 \item{parallel}{}
