@@ -134,7 +134,7 @@ serial_sva_DESeq2 <- function(DDS, n.sv = NULL, parallel = TRUE){
     "No_SVA",
     paste0(
       "SVA_",
-      n.sv,
+      1:n.sv,
       "_SVs"
     )
   )
