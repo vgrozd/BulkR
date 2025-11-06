@@ -74,6 +74,7 @@ serial_sva_DESeq2 <- function(DDS, n.sv = NULL, parallel = TRUE, qval = 0.05, l2
     ); cat("\n")
   }
 
+  suppressMessages(nSVs_Auto <- sva::svaseq(dat, mod, mod0, n.sv = NULL)$n.sv)
   svseq <- sva::svaseq(dat, mod, mod0, n.sv = n.sv)
 
   for(i in 1:ncol(svseq$sv)){
@@ -198,6 +199,7 @@ serial_sva_DESeq2 <- function(DDS, n.sv = NULL, parallel = TRUE, qval = 0.05, l2
     Results = Results,
     sva = svseq,
     SVs = svseq$sv,
+    nSVs_Auto = nSVs_Auto,
     Benchmark = Benchmark
   )
 
