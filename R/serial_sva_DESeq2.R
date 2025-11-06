@@ -203,7 +203,7 @@ serial_sva_DESeq2 <- function(DDS, n.sv = NULL, parallel = TRUE, qval = 0.05, l2
     Benchmark = Benchmark
   )
 
-  class(Serial_SVA) <- "Serial_SVA"
+  class(Serial_SVA) <- "SerialSVA"
 
   return(
     Serial_SVA
