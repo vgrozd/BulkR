@@ -1,3 +1,13 @@
+#' Serial SVA DESeq2 analysis
+#'
+#' @param DDS
+#' @param n.sv
+#' @param parallel
+#'
+#' @returns
+#' @export
+#'
+#' @examples
 serial_sva <- function(DDS, n.sv = NULL, parallel = TRUE){
 
 
