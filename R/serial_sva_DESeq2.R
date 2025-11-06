@@ -8,8 +8,11 @@
 #' @export
 #'
 #' @examples
-serial_sva_DESeq2 <- function(DDS, n.sv = NULL, parallel = TRUE){
+serial_sva_DESeq2 <- function(DDS, n.sv = NULL, parallel = TRUE, qval = 0.05, l2fc = 0, nthr = NULL){
 
+  if(!is.null(nthr)){
+    BiocParallel::register(BiocParallel::MulticoreParam(nthr))
+  }
 
   if(is.null(DESeq2::sizeFactors(DDS))){
     message(
@@ -70,6 +73,7 @@ serial_sva_DESeq2 <- function(DDS, n.sv = NULL, parallel = TRUE){
       }
     ); cat("\n")
   }
+
   svseq <- sva::svaseq(dat, mod, mod0, n.sv = n.sv)
 
   for(i in 1:ncol(svseq$sv)){
@@ -83,7 +87,19 @@ serial_sva_DESeq2 <- function(DDS, n.sv = NULL, parallel = TRUE){
 
   rm(mod, mod0, dat, idx, i)
 
+
   DDS_with_serial_SVA <- list()
+
+  Benchmark <- data.frame(
+    Name = "No_SVA",
+    nSVs = 0,
+    Elapsed=system.time(
+      suppressWarnings(
+        DESeq2::DESeq(DDS)
+      )
+    )["elapsed"]
+  )
+
 
   message(
     "Running DESeq with SVA with increasing numbers of SVs now... "
@@ -120,7 +136,17 @@ serial_sva_DESeq2 <- function(DDS, n.sv = NULL, parallel = TRUE){
       )
     ); cat("\n")
 
-    DDS_with_serial_SVA[[i]] <- DESeq2::DESeq(DDS.tmp, parallel=parallel, quiet = TRUE)
+    Benchmark <- rbind(
+      Benchmark,
+      data.frame(
+        Name = paste0("SVA_", i, "_SVs"),
+        nSVs = i,
+        Elapsed=system.time(
+          DDS_with_serial_SVA[[i]] <- DESeq2::DESeq(DDS.tmp, parallel=parallel, quiet = TRUE)
+        )["elapsed"]
+      )
+    )
+
     rm(DDS.tmp, design.tmp)
   }
 
@@ -139,8 +165,46 @@ serial_sva_DESeq2 <- function(DDS, n.sv = NULL, parallel = TRUE){
     )
   )
 
+  DESeq2_Results <- lapply(
+    DDS_with_serial_SVA,
+    function(x){
+      DESeq2::results(x, alpha = qval, lfcThreshold = l2fc)
+    }
+  )
+
+  Results <- data.frame(
+    nSVs = 0:(length(DDS_with_serial_SVA)-1),
+    nDEGs = sapply(
+      DESeq2_Results,
+      FUN = function(x){
+        x |>
+          BulkR::significant_genes() |>
+          length()
+      }
+    ),
+    DEGs = sapply(
+      DESeq2_Results,
+      FUN = function(x){
+        x |>
+          BulkR::significant_genes() |>
+          paste0(collapse=",")
+      }
+    )
+  )
+
+  Serial_SVA <- list(
+    DDS = DDS_with_serial_SVA,
+    DESeq2_Results = DESeq2_Results,
+    Results = Results,
+    sva = svseq,
+    SVs = svseq$sv,
+    Benchmark = Benchmark
+  )
+
+  class(Serial_SVA) <- "Serial_SVA"
+
   return(
-    DDS_with_serial_SVA
+    Serial_SVA
   )
 
 }
