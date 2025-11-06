@@ -8,7 +8,7 @@
 #' @export
 #'
 #' @examples
-serial_sva <- function(DDS, n.sv = NULL, parallel = TRUE){
+serial_sva_DESeq2 <- function(DDS, n.sv = NULL, parallel = TRUE){
 
 
   if(is.null(DESeq2::sizeFactors(DDS))){
