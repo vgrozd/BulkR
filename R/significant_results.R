@@ -14,7 +14,7 @@ significant_results <- function(.results, qval=0.05, l2fc=0){
   return(
     .results[
       which(
-        .results$QVAL<qval,
+        .results$QVAL<qval & 
         abs(.results$L2FC)>l2fc
       ),
     ]
